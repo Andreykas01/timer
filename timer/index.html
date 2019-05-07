@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Timer</title>
+</head>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        height: 100vh;
+        background: #324047;
+        align-items: center;
+        justify-content: center;
+    }
+    .endTimer {
+        text-align: center;
+        position: relative;
+        width: 100%;
+        height: 200px;
+        color: #00cece;
+        font-size: 144px;
+        border-bottom: 3px solid #00cece;
+    }
+</style>
+<body>
+    <div class="endTimer" id="timer">
+       <span class="days">00</span>
+        <span>:</span>
+        <span class="hours">00</span>
+        <span>:</span>
+        <span class="minutes">00</span>
+        <span>:</span>
+        <span class="seconds">00</span>
+    </div>
+    <script>
+
+        // timer
+
+        let deadLine = "2101-01-01";
+
+        function getTimeRemaining(endTime) {
+            let t = Date.parse(endTime) - Date.parse(new Date()),
+            seconds = Math.floor((t/1000) % 60),
+            minutes = Math.floor((t/1000/60) % 60),
+            hours = Math.floor((t/(1000*60*60)) % 60);
+            days = Math.floor(t / (1000 * 60 * 60 * 24));
+
+            return {
+                'total' : t,
+                'days' : days,
+                'hours' : hours,
+                'minutes' : minutes,
+                'seconds' : seconds
+            }
+        };
+
+        function setClock (id, endTime) {
+            let timer = document.getElementById('timer'),
+            days = timer.querySelector('.days'),
+            hours = timer.querySelector('.hours'),
+            minutes = timer.querySelector('.minutes'),
+            seconds = timer.querySelector('.seconds'),
+
+            timeInterval = setInterval(updateClock, 1000);
+
+
+            function updateClock() {
+                let t = getTimeRemaining(endTime);
+                days.innerHTML = t.days;
+                hours.innerHTML = ('0' + t.hours).slice(-2);
+                minutes.innerHTML = ('0' + t.minutes).slice(-2);
+                seconds.innerHTML = ('0' + t.seconds).slice(-2);
+
+                if (t.total <= 0) {
+                    clearInterval(timeInterval);
+                }
+            };
+        };
+
+        setClock('timer', deadLine);
+    </script>
+</body>
+</html>
